@@ -1,0 +1,15 @@
+FROM amazoncorretto:11
+
+#ARG SPRING_DATASOURCE_URL=jdbc:h2:file:./db/ewm-stats
+ARG SPRING_DATASOURCE_URL=jdbc:postgresql://stats-db:5432/ewm-stats
+ARG SPRING_DATASOURCE_USERNAME=postgres
+ARG SPRING_DATASOURCE_PASSWORD=postgres
+
+ENV SPRING_DATASOURCE_URL=$SPRING_DATASOURCE_URL
+ENV SPRING_DATASOURCE_USERNAME=$SPRING_DATASOURCE_USERNAME
+ENV SPRING_DATASOURCE_PASSWORD=$SPRING_DATASOURCE_PASSWORD
+
+COPY stats-server/target/*.jar app.jar
+COPY stats-common/target/*.jar common.jar
+
+ENTRYPOINT ["java", "-jar", "app.jar", "-cp common.jar"]

@@ -12,8 +12,8 @@
     <artifactId>ewm-stats</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>ewm-stats-server</module>
-        <module>ewm-stats-client</module>
-        <module>ewm-stats-common</module>
+        <module>stats-server</module>
+        <module>stats-client</module>
+        <module>stats-common</module>
     </modules>
 </project>

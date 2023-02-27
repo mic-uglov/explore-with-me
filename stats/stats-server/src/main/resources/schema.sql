@@ -1,0 +1,11 @@
+DROP TABLE IF EXISTS hits CASCADE;
+
+CREATE TABLE hits (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    app VARCHAR(64) NOT NULL,
+    uri VARCHAR(2048) NOT NULL,
+    ip VARCHAR(16) NOT NULL,
+    created TIMESTAMP
+);
+
+CREATE INDEX hits_created_uri_idx ON hits (created, uri);
