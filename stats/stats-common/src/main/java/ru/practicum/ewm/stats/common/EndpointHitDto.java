@@ -26,6 +26,6 @@ public class EndpointHitDto {
     @Pattern(regexp = "^((25[0-5]|(2[0-4]|1[0-9]|[1-9]|)[0-9])(\\.(?!$)|$)){4}$")
     private String ip;
 
-    @JsonFormat(pattern=DATE_TIME_PATTERN)
+    @JsonFormat(pattern = DATE_TIME_PATTERN)
     private LocalDateTime timestamp;
 }

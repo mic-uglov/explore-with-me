@@ -32,10 +32,10 @@ public class StatsController {
     @GetMapping("/stats")
     public ResponseEntity<List<ViewStatsDto>> getStats(
             @RequestParam
-            @DateTimeFormat(pattern=DATE_TIME_PATTERN)
+            @DateTimeFormat(pattern = DATE_TIME_PATTERN)
             LocalDateTime start,
             @RequestParam
-            @DateTimeFormat(pattern=DATE_TIME_PATTERN)
+            @DateTimeFormat(pattern = DATE_TIME_PATTERN)
             LocalDateTime end,
             @RequestParam(required = false)
             List<String> uris,
