@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.practicum.ewm.stats.common.EndpointHitDto;
 import ru.practicum.ewm.stats.common.ViewStatsDto;
 
+import javax.validation.Valid;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,7 +24,7 @@ public class StatsController {
     private final StatsService statsService;
 
     @PostMapping("/hit")
-    public ResponseEntity<Void> saveHit(@RequestBody EndpointHitDto dto) {
+    public ResponseEntity<Void> saveHit(@RequestBody @Valid EndpointHitDto dto) {
         statsService.saveHit(dto);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
