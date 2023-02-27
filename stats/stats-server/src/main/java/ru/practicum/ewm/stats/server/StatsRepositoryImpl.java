@@ -31,6 +31,7 @@ public class StatsRepositoryImpl implements StatsRepositoryCustom {
                 .from(hit)
                 .where(whereExpr)
                 .groupBy(hit.app, hit.uri)
+                .orderBy(Expressions.THREE.desc())
                 .stream()
                 .map(StatsMapper::toViewStats)
                 .collect(Collectors.toUnmodifiableList());
