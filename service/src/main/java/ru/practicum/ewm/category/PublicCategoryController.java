@@ -20,6 +20,8 @@ import static ru.practicum.ewm.config.Settings.DEF_PAGE_SIZE;
 @RequiredArgsConstructor
 @RequestMapping("/categories")
 public class PublicCategoryController {
+    private final CategoryService categoryService;
+
     @GetMapping
     public ResponseEntity<List<CategoryDto>> getAll(
             @RequestParam(defaultValue = "0")
