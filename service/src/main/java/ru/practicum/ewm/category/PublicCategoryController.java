@@ -30,11 +30,11 @@ public class PublicCategoryController {
             @RequestParam(defaultValue = DEF_PAGE_SIZE)
             @Positive
             int size) {
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(categoryService.getAll(from, size));
     }
 
     @GetMapping("/{catId}")
     public ResponseEntity<CategoryDto> get(@PathVariable long catId) {
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(categoryService.get(catId));
     }
 }

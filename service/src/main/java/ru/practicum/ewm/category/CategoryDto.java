@@ -1,15 +1,15 @@
 package ru.practicum.ewm.category;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 
+@AllArgsConstructor
 @Getter
-@Setter
 public class CategoryDto {
-    Long id;
+    private Long id;
 
     @NotBlank
-    String name;
+    private String name;
 }

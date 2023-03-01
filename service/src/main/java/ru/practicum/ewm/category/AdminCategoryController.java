@@ -12,13 +12,17 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("/admin/categories")
 public class AdminCategoryController {
+    private final CategoryService categoryService;
+
     @PostMapping
     public ResponseEntity<CategoryDto> create(@RequestBody @Valid NewCategoryDto newCategoryDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(categoryService.create(newCategoryDto));
     }
 
     @DeleteMapping("/{catId}")
     public ResponseEntity<Void> delete(@PathVariable long catId) {
+        categoryService.delete(catId);
+
         return ResponseEntity.noContent().build();
     }
 
@@ -26,6 +30,6 @@ public class AdminCategoryController {
     public ResponseEntity<CategoryDto> update(
             @PathVariable long catId,
             @RequestBody @Valid CategoryDto categoryDto) {
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(categoryService.update(catId, categoryDto));
     }
 }
