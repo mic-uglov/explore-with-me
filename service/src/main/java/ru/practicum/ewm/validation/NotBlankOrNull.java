@@ -5,17 +5,15 @@ import javax.validation.Payload;
 import java.lang.annotation.*;
 
 @SuppressWarnings("unused")
-@Target({ElementType.PARAMETER, ElementType.FIELD})
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = EnumerationValidator.class)
+@Constraint(validatedBy = NotBlankOrNullValidator.class)
 @Documented
 
-public @interface Enumeration {
-    String message() default "{ru.yandex.practicum.shareit.validation.Enumeration.message}";
+public @interface NotBlankOrNull {
+    String message() default "{ru.yandex.practicum.shareit.validation.NotBlankOrNull.message}";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-
-    Class<? extends Enum<?>> value();
 }

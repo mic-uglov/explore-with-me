@@ -21,15 +21,15 @@ public class EnumerationValidator implements ConstraintValidator<Enumeration, St
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (!values.contains(value)) {
-            context.disableDefaultConstraintViolation();
-            String messageTemplate = context.getDefaultConstraintMessageTemplate();
-            context.buildConstraintViolationWithTemplate(String.format(messageTemplate, value))
-                    .addConstraintViolation();
-
-            return false;
+        if (value == null || values.contains(value)) {
+            return true;
         }
 
-        return true;
+        context.disableDefaultConstraintViolation();
+        String messageTemplate = context.getDefaultConstraintMessageTemplate();
+        context.buildConstraintViolationWithTemplate(String.format(messageTemplate, value))
+                .addConstraintViolation();
+
+        return false;
     }
 }
