@@ -16,6 +16,8 @@ import static ru.practicum.ewm.config.Settings.DEF_PAGE_SIZE;
 @RequiredArgsConstructor
 @RequestMapping("/users/{userId}/events")
 public class PrivateEventController {
+    private final EventService eventService;
+
     @GetMapping
     public ResponseEntity<List<EventShortDto>> getByUser(
             @PathVariable long userId,
@@ -28,7 +30,7 @@ public class PrivateEventController {
     public ResponseEntity<EventFullDto> create(
             @PathVariable long userId,
             @RequestBody @Valid NewEventDto newEventDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(eventService.create(userId, newEventDto));
     }
 
     @GetMapping("/{eventId}")

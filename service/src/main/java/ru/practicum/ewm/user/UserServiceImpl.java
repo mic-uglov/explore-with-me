@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.ewm.exception.NotFoundException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -30,5 +31,12 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void delete(long userId) {
         userRepository.deleteById(userId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public User getUser(long id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Пользователь id=" + id + " не найден"));
     }
 }

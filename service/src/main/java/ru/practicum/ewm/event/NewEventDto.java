@@ -1,41 +1,44 @@
 package ru.practicum.ewm.event;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
+import static ru.practicum.ewm.config.Settings.DATE_TIME_PATTERN;
+
 @Getter
 @Setter
 public class NewEventDto {
     @NotBlank
     @Size(min = 20, max = 2000)
-    String annotation;
+    private String annotation;
 
     @NotNull
-    Long category;
+    private Long category;
 
     @NotBlank
     @Size(min = 20, max = 7000)
-    String description;
+    private String description;
 
     @NotNull
-    LocalDateTime eventDate;
+    @JsonFormat(pattern = DATE_TIME_PATTERN)
+    private LocalDateTime eventDate;
 
     @NotNull
-    Location location;
+    private Location location;
 
-    Boolean paid;
+    private Boolean paid;
 
-    Integer participantLimit;
+    private Integer participantLimit;
 
-    Boolean requestModeration;
+    private Boolean requestModeration;
 
     @NotBlank
     @Size(min = 3, max = 120)
-    String title;
+    private String title;
 }

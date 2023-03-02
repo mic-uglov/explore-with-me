@@ -46,8 +46,9 @@ public class CategoryServiceImpl implements CategoryService {
         return CategoryMapper.toDto(getCategory(catId));
     }
 
+    @Override
     @Transactional(readOnly = true)
-    private Category getCategory(long catId) {
+    public Category getCategory(long catId) {
         return categoryRepository.findById(catId)
                 .orElseThrow(() -> new NotFoundException("Категория id=" + catId + " не найдена"));
     }

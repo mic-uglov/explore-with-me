@@ -20,6 +20,8 @@ import static ru.practicum.ewm.config.Settings.DEF_PAGE_SIZE;
 @RequiredArgsConstructor
 @RequestMapping("/events")
 public class PublicEventController {
+    private final EventService eventService;
+
     @GetMapping
     public ResponseEntity<List<EventShortDto>> search(
             @RequestParam(required = false) String text,
@@ -33,7 +35,20 @@ public class PublicEventController {
             EventOrder sort,
             @RequestParam(defaultValue = "0") int from,
             @RequestParam(defaultValue = DEF_PAGE_SIZE) int size) {
-        return ResponseEntity.ok(null);
+        EventQueryParams params = EventQueryParams.getBuilder()
+                .states(List.of(EventState.PUBLISHED.name()))
+                .text(text)
+                .categories(categories)
+                .paid(paid)
+                .rangeStart(rangeStart == null && rangeEnd == null ? LocalDateTime.now() : rangeStart)
+                .rangeEnd(rangeEnd)
+                .onlyAvailable(onlyAvailable)
+                .sort(sort)
+                .from(from)
+                .size(size)
+                .build();
+
+        return ResponseEntity.ok(eventService.search(params));
     }
 
     @GetMapping("/{id}")

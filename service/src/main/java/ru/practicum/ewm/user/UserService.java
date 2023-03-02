@@ -8,4 +8,6 @@ public interface UserService {
     UserDto create(NewUserRequest newUserRequest);
 
     void delete(long userId);
+
+    User getUser(long id);
 }
