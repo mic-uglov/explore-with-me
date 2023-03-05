@@ -15,12 +15,12 @@ import static ru.practicum.ewm.config.Settings.DATE_TIME_PATTERN;
 public class EventShortDto {
     private String annotation;
     private CategoryDto category;
-    private int confirmedRequests;
+    private Long confirmedRequests;
     @JsonFormat(pattern = DATE_TIME_PATTERN)
     private LocalDateTime eventDate;
     private Long id;
     private UserShortDto initiator;
     private Boolean paid;
     private String title;
-    private int views;
+    private Long views;
 }

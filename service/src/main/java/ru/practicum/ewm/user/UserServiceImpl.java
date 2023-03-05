@@ -39,4 +39,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Пользователь id=" + id + " не найден"));
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public void checkExistence(long id) {
+        if (!userRepository.existsById(id)) {
+            throw new NotFoundException("Пользователь id=" + id + " не найден");
+        }
+    }
 }

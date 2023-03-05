@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +19,7 @@ import static ru.practicum.ewm.config.Settings.DEF_PAGE_SIZE;
 
 @Controller
 @RequiredArgsConstructor
+@Validated
 @RequestMapping("/events")
 public class PublicEventController {
     private final EventService eventService;
@@ -32,18 +34,18 @@ public class PublicEventController {
             @RequestParam(defaultValue = "false") boolean onlyAvailable,
             @RequestParam(required = false)
             @Enumeration(value = EventOrder.class, message = "Неизвестный порядок сортировки: %s")
-            EventOrder sort,
+            String sort,
             @RequestParam(defaultValue = "0") int from,
             @RequestParam(defaultValue = DEF_PAGE_SIZE) int size) {
         EventQueryParams params = EventQueryParams.getBuilder()
-                .states(List.of(EventState.PUBLISHED.name()))
+                .states(List.of(EventState.PUBLISHED))
                 .text(text)
                 .categories(categories)
                 .paid(paid)
                 .rangeStart(rangeStart == null && rangeEnd == null ? LocalDateTime.now() : rangeStart)
                 .rangeEnd(rangeEnd)
                 .onlyAvailable(onlyAvailable)
-                .sort(sort)
+                .sort(EventOrder.valueOf(sort))
                 .from(from)
                 .size(size)
                 .build();
@@ -53,6 +55,6 @@ public class PublicEventController {
 
     @GetMapping("/{id}")
     public ResponseEntity<EventFullDto> get(@PathVariable long id) {
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(eventService.publicGet(id));
     }
 }

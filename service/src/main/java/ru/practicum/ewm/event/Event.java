@@ -24,7 +24,6 @@ public class Event {
 
     private String description;
 
-    @Column(name = "event_date")
     private LocalDateTime eventDate;
 
     @Embedded
@@ -32,10 +31,8 @@ public class Event {
 
     private Boolean paid;
 
-    @Column(name = "participant_limit")
     private Integer participantLimit;
 
-    @Column(name = "request_moderation")
     private Boolean requestModeration;
 
     private String title;
@@ -45,14 +42,13 @@ public class Event {
     @ManyToOne
     private User initiator;
 
-    @Column(name = "published_on")
     private LocalDateTime publishedOn;
 
     private EventState state;
 
     @Transient
-    private int confirmedRequests;
+    private Long confirmedRequests;
 
     @Transient
-    private int views;
+    private Long views;
 }

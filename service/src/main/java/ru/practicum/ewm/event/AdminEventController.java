@@ -26,7 +26,7 @@ public class AdminEventController {
     @GetMapping
     public ResponseEntity<List<EventFullDto>> search(
             @RequestParam(required = false) List<Long> users,
-            @RequestParam(required = false) List<String> states,
+            @RequestParam(required = false) List<EventState> states,
             @RequestParam(required = false) List<Long> categories,
             @RequestParam(required = false) @DateTimeFormat(pattern = DATE_TIME_PATTERN) LocalDateTime rangeStart,
             @RequestParam(required = false) @DateTimeFormat(pattern = DATE_TIME_PATTERN) LocalDateTime rangeEnd,
@@ -49,6 +49,6 @@ public class AdminEventController {
     public ResponseEntity<EventFullDto> update(
             @PathVariable long eventId,
             @RequestBody @Valid UpdateEventAdminRequest updateEventAdminRequest) {
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(eventService.adminUpdate(eventId, updateEventAdminRequest));
     }
 }

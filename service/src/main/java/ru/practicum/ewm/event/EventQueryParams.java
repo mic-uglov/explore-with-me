@@ -8,8 +8,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class EventQueryParams {
+    private Long id;
     private List<Long> users;
-    private List<String> states;
+    private List<EventState> states;
     private String text;
     private List<Long> categories;
     private Boolean paid;
@@ -47,12 +48,16 @@ public class EventQueryParams {
         QEvent event = QEvent.event;
         BooleanExpression expr = Expressions.ONE.eq(1);
 
+        if (id != null) {
+            expr = event.id.eq(id);
+        }
+
         if (users != null && !users.isEmpty()) {
             expr = expr.and(event.initiator.id.in(users));
         }
 
         if (states != null && !states.isEmpty()) {
-            expr = expr.and(event.state.stringValue().in(states));
+            expr = expr.and(event.state.in(states));
         }
 
         if (text != null && !text.isBlank()) {
@@ -100,12 +105,17 @@ public class EventQueryParams {
             this.params = new EventQueryParams();
         }
 
+        public EventQueryParamsBuilder id(Long id) {
+            params.id = id;
+            return this;
+        }
+
         public EventQueryParamsBuilder users(List<Long> users) {
             params.users = users;
             return this;
         }
 
-        public EventQueryParamsBuilder states(List<String> states) {
+        public EventQueryParamsBuilder states(List<EventState> states) {
             params.states = states;
             return this;
         }

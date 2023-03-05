@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
+import java.util.Collections;
 import java.util.List;
 
 import static ru.practicum.ewm.config.Settings.DEF_PAGE_SIZE;
@@ -27,7 +28,7 @@ public class PublicCompilationController {
             @RequestParam(defaultValue = DEF_PAGE_SIZE)
             @Positive
             int size) {
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(Collections.emptyList());
     }
 
     @GetMapping("/{compId}")

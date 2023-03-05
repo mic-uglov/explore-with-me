@@ -10,4 +10,6 @@ public interface UserService {
     void delete(long userId);
 
     User getUser(long id);
+
+    void checkExistence(long id);
 }

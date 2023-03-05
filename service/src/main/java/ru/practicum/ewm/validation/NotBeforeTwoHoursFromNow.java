@@ -5,17 +5,15 @@ import javax.validation.Payload;
 import java.lang.annotation.*;
 
 @SuppressWarnings("unused")
-@Target({ElementType.FIELD, ElementType.PARAMETER})
+@Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = EnumerationValidator.class)
+@Constraint(validatedBy = NotBeforeTwoHoursFromNowValidator.class)
 @Documented
 
-public @interface Enumeration {
-    String message() default "{ru.yandex.practicum.shareit.validation.Enumeration.message}";
+public @interface NotBeforeTwoHoursFromNow {
+    String message() default "{ru.yandex.practicum.shareit.validation.NotBeforeTwoHoursFromNow.message}";
 
     Class<?>[] groups() default {};
 
     Class<? extends Payload>[] payload() default {};
-
-    Class<? extends Enum<?>> value();
 }

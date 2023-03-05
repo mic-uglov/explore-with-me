@@ -1,4 +1,4 @@
-package ru.practicum.ewm.event;
+package ru.practicum.ewm.request;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +9,6 @@ import java.util.List;
 @Getter
 @Setter
 public class EventRequestStatusUpdateResult {
-    List<ParticipationRequestDto> confirmedRequests;
-    List<ParticipationRequestDto> rejectedRequests;
+    private List<ParticipationRequestDto> confirmedRequests;
+    private List<ParticipationRequestDto> rejectedRequests;
 }

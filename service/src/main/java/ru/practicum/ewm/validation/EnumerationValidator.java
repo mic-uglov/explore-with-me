@@ -15,7 +15,7 @@ public class EnumerationValidator implements ConstraintValidator<Enumeration, St
         values = new TreeSet<>();
         //noinspection rawtypes
         for (Enum e : constraintAnnotation.value().getEnumConstants()) {
-            values.add(e.toString());
+            values.add(e.name());
         }
     }
 

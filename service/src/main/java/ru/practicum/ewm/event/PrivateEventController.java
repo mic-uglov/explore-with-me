@@ -5,6 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.ewm.request.EventRequestStatusUpdateRequest;
+import ru.practicum.ewm.request.EventRequestStatusUpdateResult;
 import ru.practicum.ewm.request.ParticipationRequestDto;
 
 import javax.validation.Valid;
@@ -23,7 +25,13 @@ public class PrivateEventController {
             @PathVariable long userId,
             @RequestParam(defaultValue = "0") int from,
             @RequestParam(defaultValue = DEF_PAGE_SIZE) int size) {
-        return ResponseEntity.ok(null);
+        EventQueryParams params = EventQueryParams.getBuilder()
+                .users(List.of(userId))
+                .from(from)
+                .size(size)
+                .build();
+
+        return ResponseEntity.ok(eventService.search(params));
     }
 
     @PostMapping
@@ -37,7 +45,7 @@ public class PrivateEventController {
     public ResponseEntity<EventFullDto> get(
             @PathVariable long userId,
             @PathVariable long eventId) {
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(eventService.getEventOfUser(userId, eventId));
     }
 
     @PatchMapping("/{eventId}")
@@ -45,7 +53,7 @@ public class PrivateEventController {
             @PathVariable long userId,
             @PathVariable long eventId,
             @RequestBody @Valid UpdateEventUserRequest updateEventUserRequest) {
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(eventService.userUpdate(userId, eventId, updateEventUserRequest));
     }
 
     @GetMapping("/{eventId}/requests")
