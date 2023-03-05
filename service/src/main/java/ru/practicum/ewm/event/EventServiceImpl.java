@@ -50,9 +50,12 @@ public class EventServiceImpl implements EventService {
         Event event = getEvent(eventId);
         EventAdminStateAction action = request.getStateAction();
 
-        // can publish or reject only pending??? while running the tests it's not
         if (action != null) {
-            if (action == EventAdminStateAction.PUBLISH_EVENT) {
+            if (!EventState.PENDING.equals(event.getState())) {
+                throw new ConflictException(
+                        "Возможна публикация или отклонение только события в состоянии ожидания");
+            }
+            if (EventAdminStateAction.PUBLISH_EVENT.equals(action)) {
                 event.setPublishedOn(LocalDateTime.now());
                 event.setState(EventState.PUBLISHED);
             } else {
@@ -60,7 +63,6 @@ public class EventServiceImpl implements EventService {
             }
         }
 
-        // eventDate not less than one hour before publishedOn
         if (request.getEventDate() != null) {
             if (event.getPublishedOn() != null &&
                     request.getEventDate().isBefore(event.getPublishedOn().minusHours(1))) {

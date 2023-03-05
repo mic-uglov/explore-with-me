@@ -3,6 +3,7 @@ package ru.practicum.ewm.event;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
+import ru.practicum.ewm.validation.NotBeforeTwoHoursFromNow;
 import ru.practicum.ewm.validation.NotBlankOrNull;
 
 import javax.validation.constraints.Size;
@@ -23,6 +24,7 @@ public abstract class UpdateEventRequest {
     @Size(min = 20, max = 7000)
     private String description;
 
+    @NotBeforeTwoHoursFromNow
     @JsonFormat(pattern = DATE_TIME_PATTERN)
     private LocalDateTime eventDate;
 

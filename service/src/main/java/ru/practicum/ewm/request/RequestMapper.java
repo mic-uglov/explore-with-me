@@ -25,7 +25,7 @@ public class RequestMapper {
         EventRequestStatusUpdateResult result = new EventRequestStatusUpdateResult();
 
         result.setConfirmedRequests(toDtos(requests.get(RequestStatus.CONFIRMED)));
-        result.setRejectedRequests(toDtos(requests.get(RequestStatus.CANCELED)));
+        result.setRejectedRequests(toDtos(requests.get(RequestStatus.REJECTED)));
 
         return result;
     }

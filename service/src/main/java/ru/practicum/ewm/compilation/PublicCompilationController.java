@@ -18,6 +18,8 @@ import static ru.practicum.ewm.config.Settings.DEF_PAGE_SIZE;
 @RequiredArgsConstructor
 @RequestMapping("/compilations")
 public class PublicCompilationController {
+    private final CompilationService compilationService;
+
     @GetMapping
     public ResponseEntity<List<CompilationDto>> search(
             @RequestParam(required = false)
@@ -28,11 +30,11 @@ public class PublicCompilationController {
             @RequestParam(defaultValue = DEF_PAGE_SIZE)
             @Positive
             int size) {
-        return ResponseEntity.ok(Collections.emptyList());
+        return ResponseEntity.ok(compilationService.search(pinned, from, size));
     }
 
     @GetMapping("/{compId}")
     public ResponseEntity<CompilationDto> get(@PathVariable long compId) {
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(compilationService.get(compId));
     }
 }

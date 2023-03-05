@@ -101,7 +101,7 @@ public class RequestServiceImpl implements RequestService {
             throw new ConflictException("Достигнут лимит по заявкам для события id=" + eventId);
         }
 
-        if (event.getRequestModeration() || status == CANCELED) {
+        if (event.getRequestModeration() || status == REJECTED) {
             List<Request> requests = groupByStatus(
                             requestRepository.findByEventIdAndIdIn(eventId, request.getRequestIds()))
                     .get(PENDING);
@@ -110,8 +110,8 @@ public class RequestServiceImpl implements RequestService {
                 throw new ConflictException("Статус можно изменить только у заявок в состоянии ожидания");
             }
 
-            if (status == CANCELED) {
-                requests.forEach(r -> r.setStatus(CANCELED));
+            if (status == REJECTED) {
+                requests.forEach(r -> r.setStatus(REJECTED));
             }
 
             if (status == CONFIRMED) {
@@ -119,7 +119,7 @@ public class RequestServiceImpl implements RequestService {
                     r.setStatus(CONFIRMED);
                     confirmed++;
                     if (confirmed >= limit) {
-                        requestRepository.updateStatusByEventIdAndStatus(eventId, PENDING, CANCELED);
+                        requestRepository.updateStatusByEventIdAndStatus(eventId, PENDING, REJECTED);
                         break;
                     }
                 }
@@ -128,7 +128,7 @@ public class RequestServiceImpl implements RequestService {
 
         return RequestMapper.toResult(
                 groupByStatus(requestRepository.findByEventIdAndStatusIn(
-                        eventId, List.of(CONFIRMED, CANCELED))));
+                        eventId, List.of(CONFIRMED, REJECTED))));
     }
 
     private Map<RequestStatus, List<Request>> groupByStatus(List<Request> requests) {

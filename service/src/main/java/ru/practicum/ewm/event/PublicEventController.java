@@ -45,7 +45,7 @@ public class PublicEventController {
                 .rangeStart(rangeStart == null && rangeEnd == null ? LocalDateTime.now() : rangeStart)
                 .rangeEnd(rangeEnd)
                 .onlyAvailable(onlyAvailable)
-                .sort(EventOrder.valueOf(sort))
+                .sort(sort == null ? null : EventOrder.valueOf(sort))
                 .from(from)
                 .size(size)
                 .build();
