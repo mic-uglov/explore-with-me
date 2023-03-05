@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.category.CategoryService;
 import ru.practicum.ewm.exception.ConflictException;
 import ru.practicum.ewm.exception.NotFoundException;
+import ru.practicum.ewm.request.ParticipationRequestDto;
+import ru.practicum.ewm.request.RequestService;
 import ru.practicum.ewm.user.UserService;
 import ru.practicum.ewm.validation.NotBeforeTwoHoursFromNowValidator;
 
@@ -48,15 +50,9 @@ public class EventServiceImpl implements EventService {
         Event event = getEvent(eventId);
         EventAdminStateAction action = request.getStateAction();
 
-        // can publish or reject only pending
+        // can publish or reject only pending??? while running the tests it's not
         if (action != null) {
-            /*
-            if (!EventState.PENDING.equals(event.getState())) {
-                throw new ConflictException(
-                        "Возможна публикация или отклонение только события в состоянии ожидания");
-            }
-             */
-            if (EventAdminStateAction.PUBLISH_EVENT.equals(action)) {
+            if (action == EventAdminStateAction.PUBLISH_EVENT) {
                 event.setPublishedOn(LocalDateTime.now());
                 event.setState(EventState.PUBLISHED);
             } else {
@@ -96,7 +92,7 @@ public class EventServiceImpl implements EventService {
         userService.checkExistence(userId);
         Event event = getEvent(eventId, false, userId);
 
-        if (EventState.PUBLISHED.equals(event.getState())) {
+        if (event.getState() == EventState.PUBLISHED) {
             throw new ConflictException("Изменять можно только отмененные или ожидающие подтверждения события");
         }
 
@@ -108,9 +104,9 @@ public class EventServiceImpl implements EventService {
             event.setEventDate(request.getEventDate());
         }
 
-        if (EventUserStateAction.CANCEL_REVIEW.equals(request.getStateAction())) {
+        if (request.getStateAction() == EventUserStateAction.CANCEL_REVIEW) {
             event.setState(EventState.CANCELED);
-        } else if (EventUserStateAction.SEND_TO_REVIEW.equals(request.getStateAction())) {
+        } else if (request.getStateAction() == EventUserStateAction.SEND_TO_REVIEW) {
             event.setState(EventState.PENDING);
         }
 

@@ -8,4 +8,9 @@ public interface RequestService {
     ParticipationRequestDto request(long userId, long eventId);
 
     ParticipationRequestDto cancel(long userId, long requestId);
+
+    List<ParticipationRequestDto> getRequests(long userId, long eventId);
+
+    EventRequestStatusUpdateResult updateStatus(
+            long userId, long eventId, EventRequestStatusUpdateRequest request);
 }

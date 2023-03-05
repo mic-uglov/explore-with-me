@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.request.EventRequestStatusUpdateRequest;
 import ru.practicum.ewm.request.EventRequestStatusUpdateResult;
 import ru.practicum.ewm.request.ParticipationRequestDto;
+import ru.practicum.ewm.request.RequestService;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -19,6 +20,7 @@ import static ru.practicum.ewm.config.Settings.DEF_PAGE_SIZE;
 @RequestMapping("/users/{userId}/events")
 public class PrivateEventController {
     private final EventService eventService;
+    private final RequestService requestService;
 
     @GetMapping
     public ResponseEntity<List<EventShortDto>> getByUser(
@@ -60,14 +62,14 @@ public class PrivateEventController {
     public ResponseEntity<List<ParticipationRequestDto>> getRequests(
             @PathVariable long userId,
             @PathVariable long eventId) {
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok(requestService.getRequests(userId, eventId));
     }
 
     @PatchMapping("/{eventId}/requests")
     public ResponseEntity<EventRequestStatusUpdateResult> updateRequests(
             @PathVariable long userId,
             @PathVariable long eventId,
-            @RequestBody @Valid EventRequestStatusUpdateRequest eventRequestStatusUpdateRequest) {
-        return ResponseEntity.ok(null);
+            @RequestBody @Valid EventRequestStatusUpdateRequest request) {
+        return ResponseEntity.ok(requestService.updateStatus(userId, eventId, request));
     }
 }

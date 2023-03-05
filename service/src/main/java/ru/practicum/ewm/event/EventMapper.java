@@ -5,8 +5,6 @@ import ru.practicum.ewm.category.CategoryMapper;
 import ru.practicum.ewm.user.User;
 import ru.practicum.ewm.user.UserMapper;
 
-import java.time.LocalDateTime;
-
 public class EventMapper {
     public static EventFullDto toDto(Event event) {
         EventFullDto dto = new EventFullDto();
@@ -34,10 +32,9 @@ public class EventMapper {
 
     public static Event toEvent(
             NewEventDto dto, Category category, User initiator) {
-        Event event = new Event();
+        Event event = new Event(category, initiator);
 
         event.setAnnotation(dto.getAnnotation());
-        event.setCategory(category);
         event.setDescription(dto.getDescription());
         event.setEventDate(dto.getEventDate());
         event.setLocation(dto.getLocation());
@@ -45,16 +42,6 @@ public class EventMapper {
         event.setParticipantLimit(dto.getParticipantLimit() == null ? 0 : dto.getParticipantLimit());
         event.setRequestModeration(dto.getRequestModeration() != null && dto.getRequestModeration());
         event.setTitle(dto.getTitle());
-
-        event.setCreatedOn(LocalDateTime.now());
-        event.setInitiator(initiator);
-
-        if (Boolean.TRUE.equals(event.getRequestModeration())) {
-            event.setState(EventState.PENDING);
-        } else {
-            event.setState(EventState.PUBLISHED);
-            event.setPublishedOn(LocalDateTime.now());
-        }
 
         return event;
     }

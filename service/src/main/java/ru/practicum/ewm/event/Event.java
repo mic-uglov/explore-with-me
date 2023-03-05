@@ -1,6 +1,7 @@
 package ru.practicum.ewm.event;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.practicum.ewm.category.Category;
 import ru.practicum.ewm.user.User;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @Table(name = "events")
 @Getter
 @Setter
+@NoArgsConstructor
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,4 +53,11 @@ public class Event {
 
     @Transient
     private Long views;
+
+    public Event(Category category, User initiator) {
+        this.category = category;
+        this.initiator = initiator;
+        this.createdOn = LocalDateTime.now();
+        this.state = EventState.PENDING;
+    }
 }
