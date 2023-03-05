@@ -12,9 +12,11 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("/admin/compilations")
 public class AdminCompilationController {
+    private final CompilationService compilationService;
+
     @PostMapping
     public ResponseEntity<CompilationDto> create(@RequestBody @Valid NewCompilationDto newCompilationDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(compilationService.create(newCompilationDto));
     }
 
     @DeleteMapping("/{compId}")

@@ -20,4 +20,6 @@ public interface EventService {
     EventFullDto userUpdate(long userId, long eventId, UpdateEventUserRequest request);
 
     Event getEvent(long eventId);
+
+    List<Event> getEvents(List<Long> eventIds);
 }

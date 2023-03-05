@@ -119,6 +119,11 @@ public class EventServiceImpl implements EventService {
         return getEvent(id, false, null);
     }
 
+    @Override
+    public List<Event> getEvents(List<Long> eventIds) {
+        return eventRepository.findAllById(eventIds);
+    }
+
     @Transactional(readOnly = true)
     private Event getEvent(long id, boolean onlyPublished, Long userId) {
         EventQueryParams.EventQueryParamsBuilder builder = EventQueryParams.getBuilder();

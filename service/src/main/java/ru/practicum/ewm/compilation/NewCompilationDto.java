@@ -4,15 +4,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Getter
 @Setter
 public class NewCompilationDto {
-    List<Long> events;
+    private List<Long> events;
 
-    Boolean pinned;
+    private Boolean pinned;
 
     @NotBlank
-    String title;
+    private String title;
 }
