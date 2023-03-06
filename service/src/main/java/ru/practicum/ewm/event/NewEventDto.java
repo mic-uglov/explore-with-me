@@ -27,7 +27,6 @@ public class NewEventDto {
     private String description;
 
     @NotNull
-    @NotBeforeTwoHoursFromNow
     @JsonFormat(pattern = DATE_TIME_PATTERN)
     private LocalDateTime eventDate;
 

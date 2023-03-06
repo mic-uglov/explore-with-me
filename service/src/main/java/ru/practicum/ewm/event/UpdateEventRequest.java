@@ -24,7 +24,6 @@ public abstract class UpdateEventRequest {
     @Size(min = 20, max = 7000)
     private String description;
 
-    @NotBeforeTwoHoursFromNow
     @JsonFormat(pattern = DATE_TIME_PATTERN)
     private LocalDateTime eventDate;
 

@@ -6,8 +6,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.category.CategoryService;
 import ru.practicum.ewm.exception.ConflictException;
 import ru.practicum.ewm.exception.NotFoundException;
-import ru.practicum.ewm.request.ParticipationRequestDto;
-import ru.practicum.ewm.request.RequestService;
 import ru.practicum.ewm.user.UserService;
 import ru.practicum.ewm.validation.NotBeforeTwoHoursFromNowValidator;
 
@@ -24,9 +22,15 @@ public class EventServiceImpl implements EventService {
 
     @Override
     @Transactional
-    public EventFullDto create(long userId, NewEventDto newEventDto) {
+    public EventFullDto create(long userId, NewEventDto dto) {
+        if (!(NotBeforeTwoHoursFromNowValidator.isValid(dto.getEventDate()))) {
+            throw new ConflictException(
+                    "Дата должна быть не раньше чем через два часа от текущего момента");
+        }
+
         Event event = EventMapper.toEvent(
-                newEventDto, categoryService.getCategory(newEventDto.getCategory()), userService.getUser(userId));
+                dto, categoryService.getCategory(dto.getCategory()), userService.getUser(userId));
+
         return EventMapper.toDto(eventRepository.save(event));
     }
 
@@ -64,6 +68,10 @@ public class EventServiceImpl implements EventService {
         }
 
         if (request.getEventDate() != null) {
+            if (!(NotBeforeTwoHoursFromNowValidator.isValid(request.getEventDate()))) {
+                throw new ConflictException(
+                        "Дата должна быть не раньше чем через два часа от текущего момента");
+            }
             if (event.getPublishedOn() != null &&
                     request.getEventDate().isBefore(event.getPublishedOn().minusHours(1))) {
                 throw new ConflictException(
@@ -163,8 +171,7 @@ public class EventServiceImpl implements EventService {
         if (request.getParticipantLimit() != null) {
             event.setParticipantLimit(request.getParticipantLimit());
         }
-
-        // this is available for users
+        // shouldn't we check existing requests?
         if (request.getRequestModeration() != null) {
             event.setRequestModeration(request.getRequestModeration());
         }
