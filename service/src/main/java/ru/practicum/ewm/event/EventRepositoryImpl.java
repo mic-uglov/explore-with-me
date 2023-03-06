@@ -1,6 +1,7 @@
 package ru.practicum.ewm.event;
 
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import lombok.RequiredArgsConstructor;
@@ -19,17 +20,21 @@ public class EventRepositoryImpl implements EventRepositoryCustom {
 
     @Override
     public List<Event> getByParams(EventQueryParams params) {
+        final JPAQuery<Long> subquery = new JPAQuery<>()
+                .select(Expressions.ONE.count())
+                .from(QRequest.request)
+                .where(QRequest.request.event.eq(QEvent.event)
+                        .and(QRequest.request.status.eq(RequestStatus.CONFIRMED)));
+        BooleanExpression whereExpr = params.getExpression();
+
+        if (params.isOnlyAvailable()) {
+            whereExpr = whereExpr.and(subquery.lt(QEvent.event.participantLimit.longValue()));
+        }
+
         JPAQuery<Tuple> query = new JPAQuery<>(entityManager)
-                .select(
-                        QEvent.event,
-                        new JPAQuery<>()
-                                .select(Expressions.ONE.count())
-                                .from(QRequest.request)
-                                .where(QRequest.request.event.eq(QEvent.event)
-                                        .and(QRequest.request.status.eq(RequestStatus.CONFIRMED)))
-                )
+                .select(QEvent.event, subquery)
                 .from(QEvent.event)
-                .where(params.getExpression());
+                .where(whereExpr);
 
         params.setSortAndPage(query);
 

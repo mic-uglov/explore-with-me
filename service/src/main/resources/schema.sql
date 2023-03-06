@@ -34,6 +34,8 @@ CREATE TABLE events (
     state SMALLINT NOT NULL
 );
 
+CREATE INDEX events_event_date_idx ON events (event_date);
+
 CREATE TABLE requests (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     created TIMESTAMP NOT NULL,
