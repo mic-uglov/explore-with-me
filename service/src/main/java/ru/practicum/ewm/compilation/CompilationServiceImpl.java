@@ -7,6 +7,7 @@ import ru.practicum.ewm.event.Event;
 import ru.practicum.ewm.event.EventService;
 import ru.practicum.ewm.exception.NotFoundException;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,9 +21,11 @@ public class CompilationServiceImpl implements CompilationService {
     @Transactional
     public CompilationDto create(NewCompilationDto dto) {
         List<Long> eventIds = dto.getEvents();
-        List<Event> events = null;
+        List<Event> events;
 
-        if (eventIds != null && !eventIds.isEmpty()) {
+        if (eventIds == null || eventIds.isEmpty()) {
+            events = Collections.emptyList();
+        } else {
             events = eventService.getEvents(eventIds);
         }
 
