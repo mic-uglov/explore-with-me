@@ -1,6 +1,7 @@
 package ru.practicum.ewm.event;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import ru.practicum.ewm.appevent.StatsEvent;
 import ru.practicum.ewm.validation.Enumeration;
 
 import java.time.LocalDateTime;
@@ -23,6 +27,7 @@ import static ru.practicum.ewm.config.Settings.DEF_PAGE_SIZE;
 @RequestMapping("/events")
 public class PublicEventController {
     private final EventService eventService;
+    private final ApplicationEventPublisher publisher;
 
     @GetMapping
     public ResponseEntity<List<EventShortDto>> search(
@@ -37,6 +42,7 @@ public class PublicEventController {
             String sort,
             @RequestParam(defaultValue = "0") int from,
             @RequestParam(defaultValue = DEF_PAGE_SIZE) int size) {
+
         EventQueryParams params = EventQueryParams.getBuilder()
                 .states(List.of(EventState.PUBLISHED))
                 .text(text)
@@ -49,12 +55,19 @@ public class PublicEventController {
                 .from(from)
                 .size(size)
                 .build();
+        List<EventShortDto> dtos = eventService.search(params);
 
-        return ResponseEntity.ok(eventService.search(params));
+        publisher.publishEvent(new StatsEvent());
+
+        return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<EventFullDto> get(@PathVariable long id) {
-        return ResponseEntity.ok(eventService.publicGet(id));
+        EventFullDto dto = eventService.publicGet(id);
+
+        publisher.publishEvent(new StatsEvent());
+
+        return ResponseEntity.ok(dto);
     }
 }
