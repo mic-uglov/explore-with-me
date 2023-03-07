@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
-import java.util.Collections;
 import java.util.List;
 
 import static ru.practicum.ewm.config.Settings.DEF_PAGE_SIZE;

@@ -1,7 +1,5 @@
 package ru.practicum.ewm.event;
 
-import ru.practicum.ewm.request.ParticipationRequestDto;
-
 import java.util.List;
 
 public interface EventService {

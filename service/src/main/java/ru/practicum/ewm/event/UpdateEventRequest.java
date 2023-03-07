@@ -3,7 +3,6 @@ package ru.practicum.ewm.event;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
-import ru.practicum.ewm.validation.NotBeforeTwoHoursFromNow;
 import ru.practicum.ewm.validation.NotBlankOrNull;
 
 import javax.validation.constraints.Size;

@@ -1,11 +1,9 @@
 package ru.practicum.ewm.compilation;
 
-import io.micrometer.core.lang.Nullable;
 import lombok.experimental.UtilityClass;
 import ru.practicum.ewm.event.Event;
 import ru.practicum.ewm.event.EventMapper;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
