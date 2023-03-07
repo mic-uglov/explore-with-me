@@ -3,6 +3,7 @@ package ru.practicum.ewm.event;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.ewm.appevent.StatsService;
 import ru.practicum.ewm.category.CategoryService;
 import ru.practicum.ewm.exception.ConflictException;
 import ru.practicum.ewm.exception.NotFoundException;
@@ -10,7 +11,9 @@ import ru.practicum.ewm.user.UserService;
 import ru.practicum.ewm.validation.NotBeforeTwoHoursFromNowValidator;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,6 +22,7 @@ public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final UserService userService;
     private final CategoryService categoryService;
+    private final StatsService statsService;
 
     @Override
     @Transactional
@@ -37,14 +41,14 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional(readOnly = true)
     public List<EventShortDto> search(EventQueryParams params) {
-        return eventRepository.getByParams(params).stream()
+        return getByParams(params).stream()
                 .map(EventMapper::toShortDto).collect(Collectors.toUnmodifiableList());
     }
 
     @Override
     @Transactional(readOnly = true)
     public List<EventFullDto> adminSearch(EventQueryParams params) {
-        return eventRepository.getByParams(params).stream()
+        return getByParams(params).stream()
                 .map(EventMapper::toDto).collect(Collectors.toUnmodifiableList());
     }
 
@@ -145,9 +149,36 @@ public class EventServiceImpl implements EventService {
             builder.users(List.of(userId));
         }
 
-        return eventRepository.getByParams((builder.build())).stream()
+        return getByParams((builder.build())).stream()
                 .findFirst()
                 .orElseThrow(() -> new NotFoundException("Событие id=" + id + " не найдено"));
+    }
+
+    private List<Event> getByParams(EventQueryParams params) {
+        List<Event> events = eventRepository.getByParams(params);
+
+        if (events.isEmpty()) {
+            return events;
+        }
+
+        LocalDateTime minCreatedOn = events.stream()
+                .min(Comparator.comparing(Event::getCreatedOn))
+                .get()
+                .getCreatedOn();
+        Map<Long, Long> hits = statsService.getHits(events.stream()
+                .map(Event::getId).collect(Collectors.toUnmodifiableList()), minCreatedOn);
+
+        events.forEach(e -> e.setViews(hits.get(e.getId())));
+
+        if (params.getSort() == EventOrder.VIEWS) {
+            return events.stream()
+                    .sorted(Comparator.comparing(Event::getViews).reversed())
+                    .skip(params.getFrom())
+                    .limit(params.getSize())
+                    .collect(Collectors.toUnmodifiableList());
+        } else {
+            return events;
+        }
     }
 
     private void commonUpdate(UpdateEventRequest request, Event event) {
