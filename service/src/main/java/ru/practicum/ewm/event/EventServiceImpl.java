@@ -161,10 +161,16 @@ public class EventServiceImpl implements EventService {
             return events;
         }
 
-        LocalDateTime minCreatedOn = events.stream()
-                .min(Comparator.comparing(Event::getCreatedOn))
-                .get()
-                .getCreatedOn();
+        LocalDateTime minCreatedOn;
+        if (params.getSort() == EventOrder.VIEWS) {
+            minCreatedOn = events.get(0).getCreatedOn();
+        } else {
+            minCreatedOn = events.stream()
+                    .min(Comparator.comparing(Event::getCreatedOn))
+                    .orElseThrow()
+                    .getCreatedOn();
+        }
+
         Map<Long, Long> hits = statsService.getHits(events.stream()
                 .map(Event::getId).collect(Collectors.toUnmodifiableList()), minCreatedOn);
 

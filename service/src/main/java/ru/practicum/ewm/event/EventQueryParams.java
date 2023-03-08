@@ -85,7 +85,9 @@ public class EventQueryParams {
     }
 
     public void setSortAndPage(JPAQuery<?> query) {
-        if (sort != EventOrder.VIEWS) {
+        if (sort == EventOrder.VIEWS) {
+            query.orderBy(QEvent.event.createdOn.asc());
+        } else {
             if (sort == EventOrder.EVENT_DATE) {
                 query.orderBy(QEvent.event.eventDate.asc());
             }
