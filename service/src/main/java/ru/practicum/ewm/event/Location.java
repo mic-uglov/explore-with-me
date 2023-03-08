@@ -13,9 +13,9 @@ import javax.validation.constraints.NotNull;
 public class Location {
     @NotNull
     @Column(name = "location_lat")
-    Double lat;
+    private Double lat;
 
     @NotNull
     @Column(name = "location_lon")
-    Double lon;
+    private Double lon;
 }
