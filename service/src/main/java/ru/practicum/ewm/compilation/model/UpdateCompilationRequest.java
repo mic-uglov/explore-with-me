@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.practicum.ewm.validation.NotBlankOrNull;
 
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Getter
@@ -14,5 +15,6 @@ public class UpdateCompilationRequest {
     private Boolean pinned;
 
     @NotBlankOrNull
+    @Size(max = 256)
     private String title;
 }

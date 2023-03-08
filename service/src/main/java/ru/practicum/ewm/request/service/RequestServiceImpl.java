@@ -57,7 +57,7 @@ public class RequestServiceImpl implements RequestService {
         User requester = userService.getUser(userId);
         Request request = new Request(requester, event);
 
-        if (!event.getRequestModeration()) {
+        if (!event.isRequestModeration()) {
             request.setStatus(CONFIRMED);
         }
 
@@ -103,7 +103,7 @@ public class RequestServiceImpl implements RequestService {
             throw new ConflictException("Достигнут лимит по заявкам для события id=" + eventId);
         }
 
-        if (event.getRequestModeration() || status == REJECTED) {
+        if (event.isRequestModeration() || status == REJECTED) {
             List<Request> requests = groupByStatus(
                             requestRepository.findByEventIdAndIdIn(eventId, request.getRequestIds()))
                     .get(PENDING);

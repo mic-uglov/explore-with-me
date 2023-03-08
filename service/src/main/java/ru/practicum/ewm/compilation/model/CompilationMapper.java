@@ -13,7 +13,7 @@ public class CompilationMapper {
         Compilation compilation = new Compilation();
 
         compilation.setTitle(dto.getTitle());
-        compilation.setPinned(dto.getPinned() != null && dto.getPinned());
+        compilation.setPinned(dto.isPinned());
         compilation.setEvents(events.stream().collect(Collectors.toUnmodifiableSet()));
 
         return compilation;
@@ -23,7 +23,7 @@ public class CompilationMapper {
         CompilationDto dto = new CompilationDto();
 
         dto.setId(compilation.getId());
-        dto.setPinned(compilation.getPinned());
+        dto.setPinned(compilation.isPinned());
         dto.setTitle(compilation.getTitle());
         if (compilation.getEvents() != null) {
             dto.setEvents(compilation.getEvents().stream()

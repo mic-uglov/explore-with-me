@@ -49,7 +49,7 @@ public class CompilationServiceImpl implements CompilationService {
     public CompilationDto update(Long compId, UpdateCompilationRequest request) {
         Compilation compilation = getCompilation(compId);
 
-        if (request.getTitle() != null) {
+        if (request.getPinned() != null) {
             compilation.setPinned(request.getPinned());
         }
         if (request.getTitle() != null) {

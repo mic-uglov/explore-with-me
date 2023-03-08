@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,5 +14,6 @@ import javax.validation.constraints.NotBlank;
 @Setter
 public class NewCategoryDto {
     @NotBlank
+    @Size(max = 64)
     private String name;
 }

@@ -15,9 +15,9 @@ public class EventMapper {
         dto.setDescription(event.getDescription());
         dto.setEventDate(event.getEventDate());
         dto.setLocation(event.getLocation());
-        dto.setPaid(event.getPaid());
+        dto.setPaid(event.isPaid());
         dto.setParticipantLimit(event.getParticipantLimit());
-        dto.setRequestModeration(event.getRequestModeration());
+        dto.setRequestModeration(event.isRequestModeration());
         dto.setTitle(event.getTitle());
         dto.setCreatedOn(event.getCreatedOn());
         dto.setInitiator(UserMapper.toShortDto(event.getInitiator()));
@@ -38,9 +38,9 @@ public class EventMapper {
         event.setDescription(dto.getDescription());
         event.setEventDate(dto.getEventDate());
         event.setLocation(dto.getLocation());
-        event.setPaid(dto.getPaid() != null && dto.getPaid());
-        event.setParticipantLimit(dto.getParticipantLimit() == null ? 0 : dto.getParticipantLimit());
-        event.setRequestModeration(dto.getRequestModeration() != null && dto.getRequestModeration());
+        event.setPaid(dto.isPaid());
+        event.setParticipantLimit(dto.getParticipantLimit());
+        event.setRequestModeration(dto.isRequestModeration());
         event.setTitle(dto.getTitle());
 
         return event;
@@ -54,7 +54,7 @@ public class EventMapper {
         dto.setCategory(CategoryMapper.toDto(event.getCategory()));
         dto.setEventDate(event.getEventDate());
         dto.setInitiator(UserMapper.toShortDto(event.getInitiator()));
-        dto.setPaid(event.getPaid());
+        dto.setPaid(event.isPaid());
         dto.setTitle(event.getTitle());
         dto.setConfirmedRequests(event.getConfirmedRequests());
         dto.setViews(event.getViews());

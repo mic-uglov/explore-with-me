@@ -31,11 +31,11 @@ public class Event {
     @Embedded
     private Location location;
 
-    private Boolean paid;
+    private boolean paid;
 
-    private Integer participantLimit;
+    private int participantLimit;
 
-    private Boolean requestModeration;
+    private boolean requestModeration;
 
     private String title;
 
