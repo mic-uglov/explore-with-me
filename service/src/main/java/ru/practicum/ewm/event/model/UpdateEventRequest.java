@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import ru.practicum.ewm.validation.NotBlankOrNull;
 
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
@@ -30,6 +31,7 @@ public abstract class UpdateEventRequest {
 
     private Boolean paid;
 
+    @PositiveOrZero
     private Integer participantLimit;
 
     private Boolean requestModeration;
