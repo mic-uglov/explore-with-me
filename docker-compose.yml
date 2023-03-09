@@ -1,6 +1,33 @@
 version: '3.8'
 
 services:
+  ewm-service:
+    build:
+      context: ./service
+      args:
+        EWM_STATS_SERVER_URL: http://stats-server:9090
+        SPRING_DATASOURCE_URL: jdbc:postgresql://ewm-db:5432/ewm
+        SPRING_DATASOURCE_USERNAME: postgres
+        SPRING_DATASOURCE_PASSWORD: postgres
+    image: ewm-service
+    container_name: ewm-service
+    depends_on:
+      - ewm-db
+      - stats-server
+    ports:
+      - "8080:8080"
+
+  ewm-db:
+    image: postgres
+    container_name: ewm-db
+    environment:
+      POSTGRES_DB: ewm
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - ./service/src/main/resources/schema.sql:/docker-entrypoint-initdb.d/init.sql
+      - /var/lib/postgresql/data
+
   stats-server:
     build:
       context: ./stats

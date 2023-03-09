@@ -11,7 +11,7 @@ public class StatsClientFactory {
     private final RestTemplateBuilder builder;
 
     @Autowired
-    public StatsClientFactory(@Value("${server.url}") String url, RestTemplateBuilder builder) {
+    public StatsClientFactory(@Value("${ewm.stats.server.url}") String url, RestTemplateBuilder builder) {
         this.url = url;
         this.builder = builder;
     }
