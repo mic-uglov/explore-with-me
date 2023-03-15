@@ -7,6 +7,7 @@ import ru.practicum.ewm.event.model.EventOrder;
 import ru.practicum.ewm.event.model.EventState;
 import ru.practicum.ewm.event.service.EventQueryParams;
 import ru.practicum.ewm.event.service.EventService;
+import ru.practicum.ewm.exception.ConflictException;
 import ru.practicum.ewm.exception.NotFoundException;
 import ru.practicum.ewm.subscription.model.*;
 import ru.practicum.ewm.subscription.repository.SubscriptionRepository;
@@ -35,6 +36,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
         if (initiatorIds == null || initiatorIds.isEmpty()) {
             initiators = Collections.emptyList();
         } else {
+            checkInitiators(initiatorIds, subscriber);
             initiators = userService.getUsers(initiatorIds);
         }
 
@@ -124,13 +126,22 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             subscription.setName(dto.getName());
         }
 
-        List<Long> initiatorIds = dto.getInitiatorIds();
-        if (initiatorIds != null && !initiatorIds.isEmpty()) {
-            subscription.setInitiators(
-                    userService.getUsers(initiatorIds).stream()
-                            .collect(Collectors.toUnmodifiableSet()));
+        List<Long> initiatorIds = dto.getInitiators();
+        if (initiatorIds != null) {
+            if (initiatorIds.isEmpty()) {
+                subscription.setInitiators(Collections.emptyList());
+            } else {
+                checkInitiators(initiatorIds, subscription.getSubscriber());
+                subscription.setInitiators(userService.getUsers(initiatorIds));
+            }
         }
 
         return SubscriptionMapper.toDto(subscription);
+    }
+
+    private void checkInitiators(List<Long> initiatorIds, User subscriber) {
+        if (initiatorIds.contains(subscriber.getId())) {
+            throw new ConflictException("Пользователь не может подписаться на самого себя");
+        }
     }
 }

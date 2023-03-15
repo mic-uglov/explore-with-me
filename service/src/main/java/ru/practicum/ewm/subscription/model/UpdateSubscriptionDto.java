@@ -11,5 +11,5 @@ import java.util.List;
 public class UpdateSubscriptionDto {
     @NotBlankOrNull
     private String name;
-    private List<Long> initiatorIds;
+    private List<Long> initiators;
 }
