@@ -1,14 +1,11 @@
 package ru.practicum.ewm.subscription.model;
 
 import lombok.experimental.UtilityClass;
-import ru.practicum.ewm.event.model.Event;
-import ru.practicum.ewm.event.model.EventMapper;
 import ru.practicum.ewm.event.model.EventShortDto;
 import ru.practicum.ewm.user.model.User;
 import ru.practicum.ewm.user.model.UserMapper;
 
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @UtilityClass
