@@ -1,5 +1,6 @@
 package ru.practicum.ewm.user.service;
 
+import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.user.model.NewUserRequest;
 import ru.practicum.ewm.user.model.User;
 import ru.practicum.ewm.user.model.UserDto;
@@ -16,4 +17,6 @@ public interface UserService {
     User getUser(long id);
 
     void checkExistence(long id);
+
+    List<User> getUsers(List<Long> userIds);
 }

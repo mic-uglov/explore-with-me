@@ -4,6 +4,8 @@ DROP TABLE IF EXISTS events CASCADE;
 DROP TABLE IF EXISTS requests CASCADE;
 DROP TABLE IF EXISTS compilations CASCADE;
 DROP TABLE IF EXISTS compilation_event CASCADE;
+DROP TABLE IF EXISTS subscriptions CASCADE;
+DROP TABLE IF EXISTS subscription_initiator CASCADE;
 
 CREATE TABLE users (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -54,4 +56,17 @@ CREATE TABLE compilation_event (
     compilation_id BIGINT NOT NULL REFERENCES compilations ON DELETE CASCADE,
     event_id BIGINT NOT NULL REFERENCES events ON DELETE CASCADE,
     PRIMARY KEY (compilation_id, event_id)
+);
+
+CREATE TABLE subscriptions (
+    id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    subscriber_id BIGINT NOT NULL REFERENCES users ON DELETE CASCADE,
+    name VARCHAR(64) NOT NULL,
+    UNIQUE (subscriber_id, name)
+);
+
+CREATE TABLE subscription_initiator (
+    subscription_id BIGINT NOT NULL REFERENCES subscriptions ON DELETE CASCADE,
+    initiator_id BIGINT NOT NULL REFERENCES users ON DELETE CASCADE,
+    PRIMARY KEY (subscription_id, initiator_id)
 );

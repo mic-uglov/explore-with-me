@@ -10,7 +10,6 @@ import ru.practicum.ewm.user.model.User;
 import ru.practicum.ewm.user.model.UserDto;
 import ru.practicum.ewm.user.model.UserMapper;
 import ru.practicum.ewm.user.repository.UserRepository;
-import ru.practicum.ewm.user.service.UserService;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -52,5 +51,11 @@ public class UserServiceImpl implements UserService {
         if (!userRepository.existsById(id)) {
             throw new NotFoundException("Пользователь id=" + id + " не найден");
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<User> getUsers(List<Long> userIds) {
+        return userRepository.findAllById(userIds);
     }
 }
