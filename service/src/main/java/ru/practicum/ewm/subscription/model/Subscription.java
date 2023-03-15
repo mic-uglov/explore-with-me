@@ -5,7 +5,7 @@ import lombok.Setter;
 import ru.practicum.ewm.user.model.User;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "subscriptions")
@@ -23,5 +23,6 @@ public class Subscription {
 
     @ManyToMany
     @JoinTable(name = "subscription_initiator", inverseJoinColumns = @JoinColumn(name = "initiator_id"))
-    private Set<User> initiators;
+    @OrderBy("id")
+    private List<User> initiators;
 }

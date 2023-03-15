@@ -15,7 +15,7 @@ public class SubscriptionMapper {
 
         subscription.setSubscriber(subscriber);
         subscription.setName(name);
-        subscription.setInitiators(initiators.stream().collect(Collectors.toUnmodifiableSet()));
+        subscription.setInitiators(initiators);
 
         return subscription;
     }
