@@ -29,7 +29,7 @@ public class PrivateSubscriptionController {
     @PatchMapping("/{subscriptionId}")
     public ResponseEntity<SubscriptionDto> update(
             @PathVariable long userId,
-            @RequestParam long subscriptionId,
+            @PathVariable long subscriptionId,
             @RequestBody @Valid UpdateSubscriptionDto dto) {
         return ResponseEntity.ok(subscriptionService.userUpdate(userId, subscriptionId, dto));
     }
