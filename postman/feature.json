@@ -89,6 +89,10 @@
 			"request": {
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{{body}}"
+				},
 				"url": {
 					"raw": "{{baseUrl}}/users/:userId/subscriptions",
 					"host": [
@@ -196,6 +200,10 @@
 			"request": {
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{{body}}"
+				},
 				"url": {
 					"raw": "{{baseUrl}}/users/:userId/subscriptions",
 					"host": [
@@ -279,6 +287,10 @@
 			"request": {
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{{body}}"
+				},
 				"url": {
 					"raw": "{{baseUrl}}/users/:userId/subscriptions",
 					"host": [
@@ -361,6 +373,10 @@
 			"request": {
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{{body}}"
+				},
 				"url": {
 					"raw": "{{baseUrl}}/users/:userId/subscriptions",
 					"host": [
@@ -443,6 +459,10 @@
 			"request": {
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{{body}}"
+				},
 				"url": {
 					"raw": "{{baseUrl}}/users/:userId/subscriptions",
 					"host": [
@@ -526,6 +546,10 @@
 			"request": {
 				"method": "POST",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{{body}}"
+				},
 				"url": {
 					"raw": "{{baseUrl}}/users/:userId/subscriptions",
 					"host": [
