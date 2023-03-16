@@ -60,7 +60,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     @Override
     @Transactional
     public void delete(long subscriptionId) {
-        subscriptionRepository.deleteById(subscriptionId);
+        subscriptionRepository.deleteByIdAndReturnCount(subscriptionId);
     }
 
     @Override
@@ -78,11 +78,11 @@ public class SubscriptionServiceImpl implements SubscriptionService {
 
     @Override
     @Transactional(readOnly = true)
-    public SubscriptionDto getOne(long subscriptionId, boolean onlyRelevant) {
-        Subscription subscription = getSubscription(subscriptionId);
+    public SubscriptionDto getOne(long userId, long subscriptionId, boolean onlyRelevant) {
+        Subscription subscription = getSubscription(subscriptionId, userId);
         EventQueryParams params = EventQueryParams.getBuilder()
                 .states(List.of(EventState.PUBLISHED))
-                .rangeStart(LocalDateTime.now())
+                .rangeStart(onlyRelevant ? LocalDateTime.now() : null)
                 .users(subscription.getInitiators().stream()
                         .map(User::getId).collect(Collectors.toUnmodifiableList()))
                 .sort(EventOrder.EVENT_DATE)

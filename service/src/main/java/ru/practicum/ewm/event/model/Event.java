@@ -49,10 +49,10 @@ public class Event {
     private EventState state;
 
     @Transient
-    private Long confirmedRequests;
+    private long confirmedRequests;
 
     @Transient
-    private Long views;
+    private long views;
 
     public Event(Category category, User initiator) {
         this.category = category;

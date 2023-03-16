@@ -50,8 +50,9 @@ public class PrivateSubscriptionController {
 
     @GetMapping("/{subscriptionId}")
     public ResponseEntity<SubscriptionDto> get(
+            @PathVariable long userId,
             @PathVariable long subscriptionId,
             @RequestParam(defaultValue = "true") boolean onlyRelevant) {
-        return ResponseEntity.ok(subscriptionService.getOne(subscriptionId, onlyRelevant));
+        return ResponseEntity.ok(subscriptionService.getOne(userId, subscriptionId, onlyRelevant));
     }
 }

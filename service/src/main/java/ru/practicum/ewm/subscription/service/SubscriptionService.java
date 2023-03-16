@@ -19,7 +19,7 @@ public interface SubscriptionService {
 
     List<SubscriptionDto> getByUser(long userId, boolean onlyRelevant);
 
-    SubscriptionDto getOne(long subscriptionId, boolean onlyRelevant);
+    SubscriptionDto getOne(long userId, long subscriptionId, boolean onlyRelevant);
 
     void deleteInitiator(long initiatorId);
 

@@ -176,7 +176,7 @@ public class EventServiceImpl implements EventService {
         Map<Long, Long> hits = statsService.getHits(events.stream()
                 .map(Event::getId).collect(Collectors.toUnmodifiableList()), minCreatedOn);
 
-        events.forEach(e -> e.setViews(hits.get(e.getId())));
+        events.forEach(e -> e.setViews(hits.getOrDefault(e.getId(), 0L)));
 
         if (params.getSort() == EventOrder.VIEWS) {
             return events.stream()
