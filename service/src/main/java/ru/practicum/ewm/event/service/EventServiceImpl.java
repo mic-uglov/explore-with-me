@@ -6,9 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.appevent.StatsService;
 import ru.practicum.ewm.category.service.CategoryService;
 import ru.practicum.ewm.event.model.*;
-import ru.practicum.ewm.event.model.Event;
 import ru.practicum.ewm.event.repository.EventRepository;
-import ru.practicum.ewm.event.model.EventState;
 import ru.practicum.ewm.exception.ConflictException;
 import ru.practicum.ewm.exception.NotFoundException;
 import ru.practicum.ewm.user.service.UserService;
@@ -178,7 +176,7 @@ public class EventServiceImpl implements EventService {
         Map<Long, Long> hits = statsService.getHits(events.stream()
                 .map(Event::getId).collect(Collectors.toUnmodifiableList()), minCreatedOn);
 
-        events.forEach(e -> e.setViews(hits.get(e.getId())));
+        events.forEach(e -> e.setViews(hits.getOrDefault(e.getId(), 0L)));
 
         if (params.getSort() == EventOrder.VIEWS) {
             return events.stream()

@@ -1,2 +1,3 @@
-# java-explore-with-me
-Template repository for ExploreWithMe project.
+# explore-with-me
+
+https://github.com/mic-uglov/explore-with-me/pull/3

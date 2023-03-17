@@ -16,4 +16,6 @@ public interface UserService {
     User getUser(long id);
 
     void checkExistence(long id);
+
+    List<User> getUsers(List<Long> userIds);
 }
